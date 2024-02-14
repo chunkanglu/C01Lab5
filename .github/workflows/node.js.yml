@@ -38,8 +38,8 @@ jobs:
       with:
         mongodb-version: '7.0'
 
-    - name: Run server
-      run: npm start &
-
+    - name: Run server and let it boot
+      run: npm start & sleep 5
+    
     - run: npm i
     - run: npm test
