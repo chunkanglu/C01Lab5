@@ -29,6 +29,21 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+    
+    - name: Create db dir
+      run: mkdir -p data/db
+
+    - name: Install Mongodb and Run
+      run: |
+        wget -qO - https://www.mongodb.org/static/pgp/server-3.0.asc | sudo apt-key add -
+        echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+        sudo apt-get update
+        sudo apt-get install -y mongodb-org
+        sudo service mongod start
+        mongod --dbpath=./data/db
+
+    - name: Run server
+      run: npm run dev
 
     - run: npm i
     - run: npm test
